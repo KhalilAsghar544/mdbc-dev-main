@@ -1,0 +1,284 @@
+/*
+ * Copyright IBM Corp. All Rights Reserved.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+'use strict';
+const csv = require('csv-parser')
+const fs = require('fs')
+var faker = require('faker');
+const { time } = require('console');
+const { Gateway, Wallets } = require('fabric-network');
+const path = require('path');
+const { exit } = require('process');
+
+async function main() {
+  let age = 24;
+  let query = new Array();
+  let final = new Array();
+  let i_codes = new Array();
+  let in_codes = new Object();
+
+  let clinical = 'Jansen';
+  let gender = 'male';
+  let pharma = 'JNJ';
+  let insurance = 'Allstate';
+
+  let ssd = `{"selector":{"inclusive_codes": { "$elemMatch": { "diagnosis_code": "004"} } }}`;
+
+  if (clinical) {
+    query["Clinical"] = clinical;
+  }
+  if (pharma) {
+    query["Pharma"] = pharma;
+  }
+  in_codes.diagnosis_code = "004";
+  in_codes.reference_id = "001";
+  in_codes.reference_type = "procedure";
+  i_codes["$elemMatch"] = in_codes
+  console.log(i_codes);
+  query["inclusive_codes"] = Object.assign({}, i_codes);
+  final["selector"] = Object.assign({}, query);
+  console.log(JSON.stringify(Object.assign({}, final)));
+
+}
+async function CSVToArray(CSV_string, delimiter) {
+  delimiter = (delimiter || ","); // user-supplied delimeter or default comma
+
+  var pattern = new RegExp( // regular expression to parse the CSV values.
+    ( // Delimiters:
+      "(\\" + delimiter + "|\\r?\\n|\\r|^)" +
+      // Quoted fields.
+      "(?:\"([^\"]*(?:\"\"[^\"]*)*)\"|" +
+      // Standard fields.
+      "([^\"\\" + delimiter + "\\r\\n]*))"
+    ), "gi"
+  );
+
+  var rows = [[]];  // array to hold our data. First row is column headers.
+  // array to hold our individual pattern matching groups:
+  var matches = false; // false if we don't find any matches
+  // Loop until we no longer find a regular expression match
+  while (matches = pattern.exec(CSV_string)) {
+    var matched_delimiter = matches[1]; // Get the matched delimiter
+    // Check if the delimiter has a length (and is not the start of string)
+    // and if it matches field delimiter. If not, it is a row delimiter.
+    if (matched_delimiter.length && matched_delimiter !== delimiter) {
+      // Since this is a new row of data, add an empty row to the array.
+      rows.push([]);
+    }
+    var matched_value;
+    // Once we have eliminated the delimiter, check to see
+    // what kind of value was captured (quoted or unquoted):
+    if (matches[2]) { // found quoted value. unescape any double quotes.
+      matched_value = matches[2].replace(
+        new RegExp("\"\"", "g"), "\""
+      );
+    } else { // found a non-quoted value
+      matched_value = matches[3];
+    }
+    // Now that we have our value string, let's add
+    // it to the data array.
+
+    rows[rows.length - 1].push(matched_value);
+  }
+  return rows; // Return the parsed data Array
+}
+//main();
+//parseCsv();
+//sampleCsv();
+
+async function CSVParse() {
+  fs.readFile("files/sample_data.csv", async (error, data) => {
+    if (error) {
+      console.log('\nError while reading text file.\n' + error.message)
+      // Seeding Failed
+      return process.exit(1)
+    }
+    else {
+      let rows = CSVToArray(data, ',');
+      let object_array = new Array();
+      let elem = new Object();
+      (await rows).shift();
+      (await rows).pop()
+      console.log('Done');
+    }
+  });
+}
+function jsonReader(filePath, cb) {
+  fs.readFile(filePath, (err, fileData) => {
+    if (err) {
+      return cb && cb(err)
+    }
+    try {
+      const object = JSON.parse(fileData)
+      return cb && cb(null, object)
+    } catch (err) {
+      return cb && cb(err)
+    }
+  })
+}
+async function readJson() {
+  jsonReader('files/subjects.json', (err, subject) => {
+    if (err) {
+        console.log(err)
+        return
+    }
+    
+    subject.forEach((element,i) => {
+      element.first_name  = faker.name.firstName();
+      element.last_name  = faker.name.lastName();
+      element.address  = faker.address.streetAddress();
+      element.email = faker.internet.email();
+      if(i==1){
+        console.log(element);
+      }
+      
+  });
+})
+}
+
+async function storeJson() {
+  const results = [];
+  console.log(new Date().toLocaleString());
+  let elem = new Object()
+  fs.createReadStream('files/sample_data.csv')
+    .pipe(csv())
+    .on('data', (element) => {
+      elem = {
+        "subject_id": element['patient_id'],
+        "firstName": "",
+        "lastName": "",
+        "address": "",
+        "email": "",
+        "age": (2021 - parseInt(element['patient_birth_year'])).toString(),
+        "gender": element['patient_gender'],
+        "zipCode": "3000",
+        "consent": true,
+        "ssn": "00121",
+        "phoneNumber1": "213132",
+        "phoneNumber2": "213132",
+        "medical_codes": [
+          {
+            "diagnosis_code": element['diagnosis_code'],
+            "reference_id": element['mx_claim_id'],
+            "reference_type": 'medicine',
+            "service_from_date": element['service_from_date'],
+            "fill_date": element['fill_date'],
+            "m_doctor_id": element['rendering_provider_id'],
+            "r_doctor_id": element['referring_provider_id'],
+            "billing_provider_id": element['billing_provider_id'],
+            "claim_id": element['claim_id'],
+            "claim_status": element['claim_status']
+          }
+        ]
+      };
+      let obj = results.find(o => o.subject_id === element['patient_id']);
+      let objKey = results.findIndex(o => o.subject_id === element['patient_id']);
+      if (obj) {
+        (obj.medical_codes).push(elem.medical_codes[0]);
+        results.splice(objKey, 1, obj);
+      } else {
+        results.push(elem);
+      }
+    })
+    .on('end', () => {
+      var json = JSON.stringify(results);
+      var fs = require('fs');
+      fs.writeFile('files/subjects.json', json, err => {
+        if (err) {
+          console.log('Error writing file', err)
+        } else {
+          console.log(new Date().toLocaleString());
+          console.log('Successfully wrote file')
+        }
+      })
+
+    });
+};
+
+//readJson()
+
+function AppendMedicalCodes() {
+  jsonReader('files/subjects.json', (err, subject) => {
+      if (err) {
+          console.log(err)
+          return
+      }
+      let new_array = new Array();
+      for(let i =0;i<subject.length;i++){
+          if((subject[i].medical_codes).length>10000){
+              new_array.push(subject[i]);
+          }
+      }
+      let length = (new_array[0].medical_codes).length;
+      let chunk=5000;
+      
+      let j =0,k=0;;
+      let array_size=0;
+      
+      while(length>0){
+        j++;
+        if(length<chunk){
+          chunk = length;
+        }
+        array_size =((new_array[0].medical_codes).slice(k,chunk+k)).length;
+        k = k +chunk;
+        length = length-chunk;
+        console.log(`Remaining ${length} Items`);
+        console.log(`Length ${array_size} Found`);
+      }
+      console.log(`Loop Ran: ${j} times`)
+  })
+}
+//AppendMedicalCodes();
+const timer = ms => new Promise(res => setTimeout(res, ms))
+
+async function load () { // We need to wrap the loop into an async function for this to work
+  for (var i = 0; i < 3; i++) {
+    console.log(i);
+    await timer(3000); // then the created Promise can be awaited
+  }
+}
+async function getMedicalCodes() {
+  let user = 'admin';
+  let subject_id = '798775082';
+  let errors = new Array();
+  let limit = 30000;
+  let bookmark = 'g1AAAACweJytzDEOgzAMBdCIialnMfnYTjZuUoGdqIVWlSBLb9926A1Y3_AeIYTu1nm4HG3e21beV3_Z3Z9fnxQQhxGr2AyoU851YchIAxUaUnVTxJQ0llIjgzmbSlqMYKL-e_v_e8q4fgD73i55';
+  try {
+      // load the network configuration
+      const ccpPath = path.resolve(__dirname, '..', 'test-network', 'organizations', 'peerOrganizations', 'clinical.jnj.com', 'connection-clinical.json');
+      const ccp = JSON.parse(fs.readFileSync(ccpPath, 'utf8'));
+
+      // Create a new file system based wallet for managing identities.
+      const walletPath = path.join(process.cwd(), 'walletClinical');
+      const wallet = await Wallets.newFileSystemWallet(walletPath);
+      console.log(`Wallet path: ${walletPath}`);
+
+      // Check to see if we've already enrolled the user.
+      const identity = await wallet.get(user);
+      if (!identity) {
+          console.log(`An identity for the user ${user} does not exist in the wallet`);
+          console.log('Register User before retrying');
+          return;
+      }
+      // Create a new gateway for connecting to our peer node.
+      const gateway = new Gateway();
+      await gateway.connect(ccp, { wallet, identity: user, discovery: { enabled: true, asLocalhost: true } });
+      // Get the network (channel) our contract is deployed to.
+      const network = await gateway.getNetwork('medicalcodes');
+      const contract = network.getContract('medicalcode');
+
+      let result = await contract.evaluateTransaction('queryMedicalCodes', `{"selector":{"subject_id":"${subject_id}"}}`, limit, bookmark);
+      result = JSON.parse(result);
+
+      await gateway.disconnect();
+      console.log((result.data).length,result.pagination);
+  } catch (error) {
+      console.log(`Medical Code Returned with Error: ${error}`);
+  }
+}
+getMedicalCodes();
+//storeJson();

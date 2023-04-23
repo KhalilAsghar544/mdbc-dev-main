@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SshConfigs">
+    <configs>
+      <sshConfig host="ec2-54-215-239-115.us-west-1.compute.amazonaws.com" id="f4ace6c9-1102-408a-bb9f-20fc067904cc" keyPath="$USER_HOME$/Documents/pem_keys/blockchain.pem" port="22" customName="node server jnj" nameFormat="CUSTOM" username="ubuntu">
+        <option name="customName" value="node server jnj" />
+      </sshConfig>
+    </configs>
+  </component>
+</project>

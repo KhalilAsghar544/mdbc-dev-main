@@ -1,0 +1,774 @@
+{
+	"info": {
+		"_postman_id": "ca7d0b9d-35ce-4d90-a7d9-11d05a027593",
+		"name": "JNJ",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Clinical",
+			"item": [
+				{
+					"name": "Create Clinical Trial",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"trial_id\":\"0012\",\n    \"NCTCode\":\"0011\",\n    \"name\":\"ABC\",\n    \"description\":\"ABCDEF\",\n    \"Pharma\":\"NEW\",\n    \"Clinical\":\"Jansen\",\n    \"Insurance\":\"Allstate\",\n    \"startdate\":\"2021-30-08 05:51:53\",\n    \"enddate\":\"2021-02-09 05:50:00\",\n    \"totaltarget\":\"45\",\n    \"status\":\"completed\",\n    \"subject_data\":{\n              \"consent\": true,        \n              \"gender\": \"male\",       \n              \"minAge\": \"24\",      \n              \"maxAge\": \"44\",           \n              \"homeless\": false,      \n              \"zip_codes\" : [         \n                \"3000\",\"4000\",\"5000\"\n              ] \n            },\n    \"inclusive_codes\":[\n            {\n                \"diagnosis_code\": \"001\",\n                \"reference_id\":\"001\",                \n                \"reference_type\":\"procedure\",            \n                \"reference_date\":\"2021-23-08 05:51:50\"\n            },\n            {\n                \"diagnosis_code\": \"002\",\n                \"reference_id\":\"001\",                \n                \"reference_type\":\"procedure\",            \n                \"reference_date\":\"2021-23-08 05:51:50\"\n            },\n            {\n                \"diagnosis_code\": \"003\",\n                \"reference_id\":\"001\",                \n                \"reference_type\":\"procedure\",            \n                \"reference_date\":\"2021-23-08 05:51:50\"\n            }\n    ],\n    \"exclusive_codes\":[\n            {\n                \"diagnosis_code\": \"001\",\n                \"reference_id\":\"002\",                \n                \"reference_type\":\"procedure\",            \n                \"reference_date\":\"2021-23-08 05:51:50\"\n            },\n            {\n                \"diagnosis_code\": \"002\",\n                \"reference_id\":\"002\",                \n                \"reference_type\":\"procedure\",            \n                \"reference_date\":\"2021-23-08 05:51:50\"\n            },\n            {\n                \"diagnosis_code\": \"003\",\n                \"reference_id\":\"002\",                \n                \"reference_type\":\"procedure\",            \n                \"reference_date\":\"2021-23-08 05:51:50\"\n            }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/trial/createTrial",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"trial",
+								"createTrial"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Filter Clinical Trials By Query",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Clinical\":\"Jansen\",\n    \"Pharma\":\"JNJ\",\n    \"Insuranace\":\"Allstate\",\n    \"gender\":\"male\",\n    \"lAge\":\"50\",\n    \"gAge\":\"20\",\n    \"status\":\"completed\",\n    \"diagnosis_code\":\"001\",\n    \"reference_id\":\"001\",\n    \"reference_type\":\"procedure\",\n    \"zip_codes\":[\"3000\",\"4000\"],\n    \"startdate\":\"2021-23-08\",\n    \"enddate\":\"2021-28-08\",\n    \"NCTCode\":\"0008\"\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/trial/getTrialsByQuery?limit=2&bookmark=",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"trial",
+								"getTrialsByQuery"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "2"
+								},
+								{
+									"key": "bookmark",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Clinical Trial",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"trial_id\":\"0001\",\n    \"name\":\"ABC\",\n    \"description\":\"ABCDEF\",\n    \"Pharma\":\"NEW\",\n    \"Clinical\":\"Jansen\",\n    \"Insurance\":\"Allstate2\",\n    \"startdate\":\"2021-30-08 05:51:53\",\n    \"enddate\":\"2021-02-09 05:50:00\",\n    \"totaltarget\":\"45\",\n    \"status\":\"completed\",\n    \"subject_data\":{\n              \"consent\": true,        \n              \"gender\": \"male\",       \n              \"minAge\": \"24\",      \n              \"maxAge\": \"44\",           \n              \"homeless\": false,      \n              \"zip_codes\" : [         \n                \"3000\",\"4000\",\"5000\"\n              ] \n            },\n    \"inclusive_codes\":[\n            {\n                \"diagnosis_code\": \"001\",\n                \"reference_id\":\"001\",                \n                \"reference_type\":\"procedure\",            \n                \"reference_date\":\"2021-23-08 05:51:50\"\n            },\n            {\n                \"diagnosis_code\": \"002\",\n                \"reference_id\":\"001\",                \n                \"reference_type\":\"procedure\",            \n                \"reference_date\":\"2021-23-08 05:51:50\"\n            },\n            {\n                \"diagnosis_code\": \"003\",\n                \"reference_id\":\"001\",                \n                \"reference_type\":\"procedure\",            \n                \"reference_date\":\"2021-23-08 05:51:50\"\n            }\n    ],\n    \"exclusive_codes\":[\n            {\n                \"diagnosis_code\": \"001\",\n                \"reference_id\":\"002\",                \n                \"reference_type\":\"procedure\",            \n                \"reference_date\":\"2021-23-08 05:51:50\"\n            },\n            {\n                \"diagnosis_code\": \"002\",\n                \"reference_id\":\"002\",                \n                \"reference_type\":\"procedure\",            \n                \"reference_date\":\"2021-23-08 05:51:50\"\n            },\n            {\n                \"diagnosis_code\": \"003\",\n                \"reference_id\":\"002\",                \n                \"reference_type\":\"procedure\",            \n                \"reference_date\":\"2021-23-08 05:51:50\"\n            }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/trial/updateTrial",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"trial",
+								"updateTrial"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Clinical Trial Status",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"trial_id\":\"0001\",\n    \"status\":\"completed\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/trial/updateTrialByStatus",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"trial",
+								"updateTrialByStatus"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Clinical Trial",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/trial/getTrial/0001",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"trial",
+								"getTrial",
+								"0001"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Clinical Trials By Status",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"enrollmentId\": \"appUser\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/trial/getTrialsByStatus/completed?limit=2&bookmark=",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"trial",
+								"getTrialsByStatus",
+								"completed"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "2"
+								},
+								{
+									"key": "bookmark",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Clinical Trials",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/trial/getAllTrials?limit=2&bookmark=''",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"trial",
+								"getAllTrials"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "2"
+								},
+								{
+									"key": "bookmark",
+									"value": "''"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Subject",
+			"item": [
+				{
+					"name": "Get Insurance Subject",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/subject/getSubject/0001",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"subject",
+								"getSubject",
+								"0001"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Insurance Subjects",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/subject/getAllSubjects?limit=2&bookmark=0003",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"subject",
+								"getAllSubjects"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "2"
+								},
+								{
+									"key": "bookmark",
+									"value": "0003"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Subject Medical Codes",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"subject_id\":\"0004\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/subject/getMedicalCodes?limit=2&bookmark=",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"subject",
+								"getMedicalCodes"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "2"
+								},
+								{
+									"key": "bookmark",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Subject",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " {\n \t\"subject_id\": \"0001\",\n \t\"firstName\": \"John \",\n \t\"lastName\": \"Doe\",\n \t\"address\": \"New York\",\n \t\"age\": \"27\",\n \t\"gender\": \"male\",\n \t\"zipCode\": \"54000\",\n \t\"consent\": true,\n \t\"ssn\": \"3321321321\",\n \t\"phoneNumber1\": \"321321321321\",\n \t\"phoneNumber2\": \"321321321321\",\n \t\"maritalStatus\": \"Married\",\n \t\"children\": \"1\",\n \t\"spouseInformation\": {\n \t\t\"firstName\": \"Monica\",\n \t\t\"lastName\": \"Singh\",\n \t\t\"phoneNumber\": \"313221321332\",\n \t\t\"gender\": \"female\",\n \t\t\"age\": \"25\"\n \t},\n \t\"medical_codes\": [{\n \t\t\t\"diagnosis_code\": \"001\",\n \t\t\t\"reference_id\": \"\",\n \t\t\t\"reference_type\": \"\",\n \t\t\t\"reference_date\": \"\"\n \t\t},\n \t\t{\n \t\t\t\"diagnosis_code\": \"001\",\n \t\t\t\"reference_id\": \"001\",\n \t\t\t\"reference_type\": \"procedure\",\n \t\t\t\"reference_date\": \"2021-06-06 23:15\"\n \t\t},\n \t\t{\n \t\t\t\"diagnosis_code\": \"001\",\n \t\t\t\"reference_id\": \"001\",\n \t\t\t\"reference_type\": \"medicine\",\n \t\t\t\"reference_date\": \"2021-06-06 23:15\"\n \t\t}\n \t]\n }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/subject/createSubject",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"subject",
+								"createSubject"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Subject",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " {\n \t\"subject_id\": \"0009\",\n \t\"firstName\": \"John\",\n \t\"lastName\": \"Doe\",\n \t\"address\": \"Hello\",\n \t\"age\": \"27\",\n \t\"gender\": \"male\",\n \t\"zipCode\": \"54000\",\n \t\"consent\": true,\n \t\"ssn\": \"3321321321\",\n \t\"phoneNumber1\": \"321321321321\",\n \t\"phoneNumber2\": \"321321321321\",\n \t\"maritalStatus\": \"Married\",\n \t\"children\": \"1\",\n \t\"spouseInformation\": {\n \t\t\"firstName\": \"Monica\",\n \t\t\"lastName\": \"Singh\",\n \t\t\"phoneNumber\": \"313221321332\",\n \t\t\"gender\": \"female\",\n \t\t\"age\": \"25\"\n \t},\n \t\"device_data\": {\n \t\t\"distance\": \"0.3\",\n \t\t\"steps\": \"340\",\n \t\t\"burncalories\": \"45\",\n \t\t\"heartRate\": [{\n \t\t\t\t\"heartRate\": \"85\",\n \t\t\t\t\"dateInfo\": \"2021-09-07 12:01\"\n \t\t\t},\n \t\t\t{\n \t\t\t\t\"heartRate\": \"83\",\n \t\t\t\t\"dateInfo\": \"2021-09-07 12:11\"\n \t\t\t},\n \t\t\t{\n \t\t\t\t\"heartRate\": \"86\",\n \t\t\t\t\"dateInfo\": \"2021-09-07 12:21\"\n \t\t\t}\n \t\t],\n \t\t\"sleepData\": [{\n \t\t\t\t\"awake\": \"0\",\n \t\t\t\t\"deepSleep\": \"155\",\n \t\t\t\t\"lightSleep\": \"360\",\n \t\t\t\t\"startDate\": \"2021-06-06 23:15\",\n \t\t\t\t\"endDate\": \"2021-06-07 23:15\"\n \t\t\t},\n \t\t\t{\n \t\t\t\t\"awake\": \"0\",\n \t\t\t\t\"deepSleep\": \"155\",\n \t\t\t\t\"lightSleep\": \"360\",\n \t\t\t\t\"startDate\": \"2021-06-05 23:15\",\n \t\t\t\t\"endDate\": \"2021-06-06 23:15\"\n\n \t\t\t}\n\n \t\t]\n \t},\n \t\"medical_codes\": [{\n \t\t\t\"diagnosis_code\": \"001\",\n \t\t\t\"reference_id\": \"\",\n \t\t\t\"reference_type\": \"\",\n \t\t\t\"reference_date\": \"\"\n \t\t},\n \t\t{\n \t\t\t\"diagnosis_code\": \"001\",\n \t\t\t\"reference_id\": \"001\",\n \t\t\t\"reference_type\": \"procedure\",\n \t\t\t\"reference_date\": \"2021-06-06 23:15\"\n \t\t},\n \t\t{\n \t\t\t\"diagnosis_code\": \"001\",\n \t\t\t\"reference_id\": \"001\",\n \t\t\t\"reference_type\": \"medicine\",\n \t\t\t\"reference_date\": \"2021-06-06 23:15\"\n \t\t}\n \t]\n }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/subject/updateSubject",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"subject",
+								"updateSubject"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Filter Subjects By Query",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"gender\":\"male\",\n    \"consent\":true,\n    \"lastName\":\"Arshad\",\n    \"firstName\":\"K\",\n    \"city\":\"\",\n    \"state\":\"\",\n    \"email\":\"\"\n    \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/subject/getSubjectsByQuery?limit=4&bookmark=",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"subject",
+								"getSubjectsByQuery"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "4"
+								},
+								{
+									"key": "bookmark",
+									"value": ""
+								}
+							]
+						},
+						"description": "\"gender\":\"male\",\n    \"consent\":true,\n    \"lastName\":\"Arshad\",\n    \"firstName\":\"K\",\n    \"city\":\"\",\n    \"state\":\"\",\n    \"email\":\"\""
+					},
+					"response": []
+				},
+				{
+					"name": "Free Search Subjects",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"gender\":\"male\",\n    \"consent\":true,\n    \"zipCodes\":[\"3000\",\"4000\"],\n    \"lAge\":\"35\",\n    \"gAge\":\"20\",\n    \"inclusive_codes\":[],\n    \"exclusive_codes\":[{\n        \"diagnosis_code\": \"001\",\n        \"reference_id\":\"001\",                \n        \"reference_type\":\"procedure\"\n    }]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/subject/getSubjectsByFreeSearch?limit=2&bookmark=",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"subject",
+								"getSubjectsByFreeSearch"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "2"
+								},
+								{
+									"key": "bookmark",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Create Clinical Users",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"enrollmentId\": \"appUser\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/clinical/createUser",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"clinical",
+								"createUser"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify Clinical User",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"enrollmentId\": \"appUser\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/clinical/verifyUser/appUser",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"clinical",
+								"verifyUser",
+								"appUser"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Map",
+			"item": [
+				{
+					"name": "Search Trial Subjects",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"trial_id\":\"0008\",\n    \"mode\":\"ict_exc_inc\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/map/searchTrialSubjects?limit=5&bookmark=",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"map",
+								"searchTrialSubjects"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "5"
+								},
+								{
+									"key": "bookmark",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Map Trial",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"trial_id\":\"0008\",\n    \"subject_id\":\"0001\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/map/mapTrial",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"map",
+								"mapTrial"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Trial Subject",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"trial_id\":\"0008\",\n    \"subject_id\":\"0001\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/map/getTrialSubject/0008_0001",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"map",
+								"getTrialSubject",
+								"0008_0001"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Trial Subject",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"trial_id\":\"0008\",\n    \"subject_id\":\"0001\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/map/deleteTrialSubject/0008_0001",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"map",
+								"deleteTrialSubject",
+								"0008_0001"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Trial Subjects",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"trial_id\":\"0008\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/map/getTrialSubjects?limit=5&bookmark=",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"map",
+								"getTrialSubjects"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "5"
+								},
+								{
+									"key": "bookmark",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "devices",
+			"item": [
+				{
+					"name": "Get Iot Device Data",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/iotdevice/getDeviceData/0001",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"iotdevice",
+								"getDeviceData",
+								"0001"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Iot Device Data",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/iotdevice/getDeviceData/0005",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"iotdevice",
+										"getDeviceData",
+										"0005"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "741"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2e5-CUTWMuHNeLcN09IZFZPMKiYy6+A\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 01 Nov 2021 13:50:30 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Subject Device Data returned Successfully\",\n    \"data\": {\n        \"device_data\": {\n            \"burncalories\": \"45\",\n            \"distance\": \"0.3\",\n            \"heartRate\": [\n                {\n                    \"dateInfo\": \"2021-09-07 12:01\",\n                    \"heartRate\": \"85\"\n                },\n                {\n                    \"dateInfo\": \"2021-09-07 12:11\",\n                    \"heartRate\": \"81\"\n                },\n                {\n                    \"dateInfo\": \"2021-09-07 12:21\",\n                    \"heartRate\": \"83\"\n                },\n                {\n                    \"dateInfo\": \"2021-09-07 12:31\",\n                    \"heartRate\": \"85\"\n                }\n            ],\n            \"sleepData\": [\n                {\n                    \"awake\": \"0\",\n                    \"deepSleep\": \"155\",\n                    \"endDate\": \"2021-06-07 23:15\",\n                    \"lightSleep\": \"360\",\n                    \"startDate\": \"2021-06-06 23:15\"\n                },\n                {\n                    \"awake\": \"0\",\n                    \"deepSleep\": \"180\",\n                    \"endDate\": \"2021-06-08 23:15\",\n                    \"lightSleep\": \"360\",\n                    \"startDate\": \"2021-06-07 23:15\"\n                },\n                {\n                    \"awake\": \"0\",\n                    \"deepSleep\": \"155\",\n                    \"endDate\": \"2021-06-09 23:15\",\n                    \"lightSleep\": \"360\",\n                    \"startDate\": \"2021-06-08 23:15\"\n                }\n            ],\n            \"steps\": \"340\"\n        },\n        \"docType\": \"device\",\n        \"subject_id\": \"0005\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Create Iot Device Data",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n                \"subject_id\": \"0004\",\n                \"device_data\": {\n                    \"distance\": \"0.3\",\n                    \"steps\": \"340\",\n                    \"burncalories\": \"45\",\n                    \"heartRate\": [\n                        {\n                            \"heartRate\": \"85\",\n                            \"dateInfo\": \"2021-09-07 12:01\"\n                        },\n                        {\n                            \"heartRate\": \"81\",\n                            \"dateInfo\": \"2021-09-07 12:11\"\n                        },\n                        {\n                            \"heartRate\": \"83\",\n                            \"dateInfo\": \"2021-09-07 12:21\"\n                        },\n                        {\n                            \"heartRate\": \"85\",\n                            \"dateInfo\": \"2021-09-07 12:31\"\n                        }\n                    ],\n                    \"sleepData\": [\n                        {\n                            \"awake\": \"0\",\n                            \"deepSleep\": \"155\",\n                            \"lightSleep\": \"360\",\n                            \"startDate\": \"2021-06-06 23:15\",\n                            \"endDate\": \"2021-06-07 23:15\"\n\n                        },\n                        {\n                            \"awake\": \"0\",\n                            \"deepSleep\": \"180\",\n                            \"lightSleep\": \"360\",\n                            \"startDate\": \"2021-06-07 23:15\",\n                            \"endDate\": \"2021-06-08 23:15\"\n\n\n                        },\n                        {\n                            \"awake\": \"0\",\n                            \"deepSleep\": \"155\",\n                            \"lightSleep\": \"360\",\n                            \"startDate\": \"2021-06-08 23:15\",\n                            \"endDate\": \"2021-06-09 23:15\"\n\n                        }\n                    ]\n                }\n            }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/iotdevice/createDeviceData",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"iotdevice",
+								"createDeviceData"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

@@ -1,0 +1,6 @@
+{"index":
+    {"fields":["subject_id"]},
+"ddoc":"indexSubjectDoc",
+ "name":"indexSubject",
+ "type":"json"
+}
